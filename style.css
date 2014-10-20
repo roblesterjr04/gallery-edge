@@ -13,3 +13,88 @@ Text Domain: gallery-edge
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
 */
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
+
+body {
+	margin: 0;
+	font-family: 'Open Sans','Helvetica';
+	font-weight: 100;
+}
+
+.top-nav {
+	position: absolute;
+	width: 100%;
+	background-color: white;
+	z-index: 10;
+}
+.top-nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	float: right;
+}
+.top-nav ul li {
+	float: left;
+}
+.top-nav ul li a {
+	display: block;
+	padding: 18px 12px;
+	text-decoration: none;
+	color: #323232;
+	font-weight: 200;
+	-webkit-transition-property: background-color;
+	-webkit-transition-duration: 0.3s;
+}
+
+.top-nav ul li:hover a {
+	background-color: #f7f7f7;
+}
+
+.tag-line-box {
+	position: fixed;
+	bottom: 50%;
+	left: 50%;
+	width: 700px;
+	margin-left: -350px;
+	text-align: center;
+	z-index: 20;
+}
+.fadein {
+	-webkit-transition-property: opacity;
+	-webkit-transition-duration: 2s;
+	opacity: 0;
+}
+.show {
+	opacity: 0.9;
+}
+.show:hover {
+	opacity: 1;
+}
+
+.footer {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 60px;
+	background-color: white;
+}
+
+.image-container {
+	width: 100%;
+	height: 100vh;
+	overflow-y: hidden;
+}
+
+.image-container .image-slide {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	height: 100vh;
+	background-position: 50% 0;
+	background-size: 100%;
+}
+.image-container.clear .image-slide {
+	opacity: 0;
+}
