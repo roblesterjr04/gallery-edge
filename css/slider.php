@@ -12,7 +12,7 @@ function build_slider() {
 		.image-container.start #image<?php echo $image->ID; ?> {
 			-webkit-transition-property: opacity;
 			-webkit-transition-duration: 2s;
-			-webkit-transition-delay: <?php echo $i*3; ?>s;
+			-webkit-transition-delay: <?php echo $i*4; ?>s;
 			
 		}
 		
