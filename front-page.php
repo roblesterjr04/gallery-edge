@@ -2,7 +2,7 @@
 <div class="homewrap">
 <div class="image-container clear slider"><?php slider_images(); ?></div>
 <div class="home-title fadeout">
-	<h1><img src="http://localhost:8888/aljohnson/wp-content/uploads/2014/10/ajlogo.png" class="site-logo" /><?php bloginfo('name'); ?></h1>
+	<h1><img src="<?php echo get_option('gallery_logo') ?>" class="site-logo" /><?php bloginfo('name'); ?></h1>
 	<p><?php bloginfo('description'); ?></p>
 </div>
 </div>

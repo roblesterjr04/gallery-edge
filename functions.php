@@ -1,6 +1,7 @@
 <?php
 
 include('css/slider.php');
+include('Mobile_Detect.php');
 
 add_theme_support('menus');
 add_theme_support('post-thumbnails');
@@ -17,12 +18,23 @@ register_nav_menus( array(
 function featured_zone($id = false, $title = false) {
 	if (!$id) $attachment = get_post_thumbnail_id();
 	else $attachment = get_post_thumbnail_id($id);
-	$featured_url = wp_get_attachment_url($attachment);
-
+	$detect = new Mobile_Detect;
+	$featured = wp_get_attachment_image_src($attachment, $detect->isMobile() ? 'medium' : 'large');
 	?>
-	<div class="featured-area" style="background-image: url(<?php echo $featured_url; ?>);">
+	<div class="featured-area" style="background-image: url(<?php echo $featured[0]; ?>);">
 		<h1 class="<?php echo $pb ?: 'plain-title'; ?>"><?php if (!$title) the_title(); else echo $title; ?></h1>
 	</div>
+	<?php
+}
+
+function galleryView($id) {
+	
+	$post = get_post($id);
+	$image = gallery_get_image($id);
+	?>
+	<div class="image"><img src="<?php echo $image; ?>" /></div>
+	<div class="title"><h1><?php echo $post->post_title; ?></h1></div>
+	<div class="close dashicons dashicons-no-alt"></div>
 	<?php
 }
 
@@ -76,7 +88,7 @@ add_filter("attachment_fields_to_save", "add_image_attachment_fields_to_save", n
 
 function gallery_enqueue_styles() {
 	wp_enqueue_style('styles', get_stylesheet_uri() );
-	//wp_enqueue_style('slider-php', get_bloginfo('wpurl') . '?slider=css');
+	wp_enqueue_style('dashicons');
 	wp_enqueue_script(
 		'custom-script',
 		get_stylesheet_directory_uri() . '/js/slider.js',
@@ -93,9 +105,12 @@ add_action('wp_enqueue_scripts', 'gallery_enqueue_styles');
 function slider_images() {
 	$images = get_images(1);
 	$index = 0;
+	$detect = new Mobile_Detect;
+	
 	foreach($images as $image) {
+		$featured = wp_get_attachment_image_src($image->ID, $detect->isMobile() ? 'medium' : 'large');
 		?>
-		<div style="background-image:url(<?php echo $image->guid; ?>);" data-slide="<?php echo $index; ?>" class="image-slide <?php echo $index==0?'active':''; ?>">
+		<div style="background-image:url(<?php echo $featured[0]; ?>);" data-slide="<?php echo $index; ?>" class="image-slide <?php echo $index==0?'active':''; ?>">
 			<div class="image-details">
 				<h3></h3>
 				<p></p>
@@ -109,10 +124,10 @@ function slider_images() {
 
 function get_images($home = false) {
 	$meta = array(
-		array(
+		/*array(
 			'key'=>'_pubgallery',
 			'value'=>'on'
-		)
+		)*/
 	);
 	if ($home) {
 		$meta[] = array(
@@ -138,8 +153,8 @@ function theme_slug_widgets_init() {
 }
 add_action( 'widgets_init', 'theme_slug_widgets_init' );
 
-function print_gallery_page() {
-	wp_dropdown_pages(array('name'=>'gallery_page','selected'=>get_option('gallery_page')));
+function print_gallery_logo() {
+	echo '<input type="text" value="'.get_option('gallery_logo').'" name="gallery_logo" />';
 }
 
 function print_show_sharing() {
@@ -163,8 +178,8 @@ function print_admin_name() {
 }
 
 function register_settings() {
-	register_setting('reading', 'gallery_page', 'esc_attr');
-    add_settings_field('gallery_page', '<label for="gallery_page">'.__('Gallery Page' , 'gallery_page' ).'</label>' , 'print_gallery_page', 'reading');
+	register_setting('general', 'gallery_logo', 'esc_attr');
+    add_settings_field('gallery_logo', '<label for="gallery_logo">'.__('Gallery Logo Url' , 'gallery_logo' ).'</label>' , 'print_gallery_logo', 'general');
     register_setting('general', 'admin_name', 'esc_attr');
     add_settings_field('admin_name', '<label for="admin_name">'.__('Full Name', 'admin_name').'</label>', 'print_admin_name', 'general');
     register_setting('reading', 'show_sharing_controls', 'esc_attr');
@@ -172,29 +187,28 @@ function register_settings() {
 }
 add_action('admin_init', 'register_settings');
 
+function gallery_get_image($id) {
+	$upload_dir = wp_upload_dir();
+	$image = get_post_meta($id, '_sell_media_attached_file', true);
+	return $upload_dir['baseurl'] . '/' . $image;
+}
+
 function gallery_content($content) {
 	global $post;
 	global $addthis;
-	$id = $post->ID;
-	if ($id == get_option('gallery_page')) {
-		$content = '';
-		$images = get_images();
-		$content .= '<div class="tile-container js-masonry">';
-		foreach($images as $image) {
-			//$data = get_metadata('post', $image->ID, "_wp_attachment_metadata", true);
-			$img = wp_get_attachment_image_src( $image->ID, 'large' );
-			if ($img[1] > $img[2]*1.3) $class='w2';
-			if ($img[1] > $img[2]*1.7) $class='w3';
-			$content .= '<div class="item '.$class.'">';
-				$content .= '<img src="' . $img[0] . '" />';
-				$content .= '<div class="metadata">';
-				$content .= '<h2>'.$image->post_title.'</h2>';
-				$content .= '</div>';
-			$content .= '</div>';
-		}
-		$content .= '</div>';
+	$detect = new Mobile_Detect;
+	if ($post->post_type == 'sell_media_item') {
+		$content = '<img src="' . gallery_get_image($post->ID) . '" style="max-width: 400px;" class="alignleft" />' . $content;
 	}
-	if (is_page() || is_single()) $content .= $addthis;
+	if ((is_single() || is_page()) && !$detect->isMobile()) $content = $addthis . $content;
 	return $content;
 }
-add_filter('the_content', 'gallery_content');
+add_filter('the_content', 'gallery_content', 10, 1);
+
+function check_for_gallery() {
+	if ($_POST['gallery']) {
+		galleryView($_POST['gallery']);
+		exit;
+	}
+}
+add_action('init', 'check_for_gallery');
