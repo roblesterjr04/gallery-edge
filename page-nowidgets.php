@@ -1,6 +1,15 @@
+<?php 
+
+/*
+Template Name: No Sidebar or widgets
+*/
+
+
+include_once( ABSPATH . 'wp-admin/includes/plugin.php' ); $pb = is_plugin_active('wr-pagebuilder'); ?>
 <?php get_header(); ?>
 
 <div class="pagewrap">
+
 
 <?php if (have_posts()) : while (have_posts()) : the_post(); 
 
@@ -15,10 +24,6 @@ $class = get_option('gallery_page') == get_the_ID() ? 'gallery' : '';
 	echo '<div class="plain-left">';
 	the_content(); 
 	echo '</div>';
-	echo '<div class="plain-right">';
-	if (!is_single()) dynamic_sidebar($post->post_name);
-	dynamic_sidebar('page_right');
-	echo '</div>';
 	echo '</div>';
 
 
@@ -29,8 +34,8 @@ $class = get_option('gallery_page') == get_the_ID() ? 'gallery' : '';
 <p>Sorry, nothing to see.</p>
 
 <?php endif; ?>
-</div>
 
+</div>
 
 </div>
 

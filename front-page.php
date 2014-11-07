@@ -1,3 +1,9 @@
+<?php if ('posts' == get_option( 'show_on_front' )) : ?>
+
+<?php include( get_index_template() ); ?>
+
+<?php else : ?>
+
 <?php get_header(); ?>
 <div class="homewrap">
 <div class="image-container clear slider"><?php slider_images(); ?></div>
@@ -7,3 +13,6 @@
 </div>
 </div>
 <?php get_footer(); ?>
+
+<?php endif; ?>
+

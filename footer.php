@@ -1,4 +1,5 @@
 <div class="footer">
+	<div class="bottom-nav"><?php wp_nav_menu( array('menu' => 'Main Navigation' )); ?></div>
 	<div class="copyright">Copyright <?php echo get_option('admin_name') ?> <?php echo date('Y'); ?>. Web site by <a href="#">Robert Lester</a>.</div>
 </div>
 <div class="galleryViewContainer">

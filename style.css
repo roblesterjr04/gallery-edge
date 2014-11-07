@@ -7,7 +7,7 @@ Description: The edge-to-edge gallery theme puts the focus on your art.
 Version: 1.0
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Tags: black, green, white, light, dark, two-columns, three-columns, left-sidebar, right-sidebar, fixed-layout, responsive-layout, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready
+Tags: black, white, light, dark, two-columns, right-sidebar, responsive-layout, custom-background, custom-header, custom-menu, editor-style, featured-images, flexible-header, full-width-template, microformats, post-formats, rtl-language-support, sticky-post, theme-options, translation-ready, accessibility-ready
 Text Domain: gallery-edge
 
 This theme, like WordPress, is licensed under the GPL.
@@ -20,6 +20,9 @@ body {
 	margin: 0;
 	font-family: 'Open Sans','Helvetica';
 	font-weight: 100;
+	background-attachment: fixed;
+	background-size: cover;
+	background-position: 50% 50%;
 }
 
 img.alignleft {
@@ -37,16 +40,39 @@ h1,h2,h3,h4,h5 {
 	background-color: white;
 	z-index: 20;
 }
-.top-nav ul {
+.top-nav > h1 {
+	clear: both;
+	margin: 10px 20px;
+	display: none;
+	text-align: center;
+}
+.content > h1 {
+	display: none;
+}
+.bottom-nav {
+	float: left;
+}
+.top-nav ul.menu, .top-nav div.menu ul {
 	list-style-type: none;
 	margin: 0;
 	padding: 0;
 	float: right;
 }
-.top-nav ul li {
+.bottom-nav ul > ul.sub-menu {
+	display: none;
+}
+.bottom-nav > ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 20px;
+}
+.bottom-nav ul > li {
+	padding: 0 10px 0 0;
+}
+.bottom-nav ul > li, .top-nav ul > li {
 	float: left;
 }
-.top-nav ul li a {
+.top-nav ul > li a {
 	display: block;
 	padding: 18px 12px;
 	text-decoration: none;
@@ -54,9 +80,43 @@ h1,h2,h3,h4,h5 {
 	font-weight: 200;
 	-webkit-transition-property: background-color;
 	-webkit-transition-duration: 0.3s;
+	transition-property: background-color;
+	transition-duration: 0.3s;
+	-moz-transition-property: background-color;
+	-moz-transition-duration: 0.3s;
+}
+.top-nav ul > li > ul.sub-menu {
+	display: none;
+	position: absolute;
+	right: 0;
+	list-style-type: none;
+}
+.top-nav ul > li > ul.sub-menu li > ul.sub-menu {
+	list-style-type: none;
+	position: relative;
+	padding: 0;
+	margin-left: 10px;
+	display: block;
+}
+.top-nav ul > li > ul.sub-menu li > ul.sub-menu li a {
+	font-size: 12px;
+	font-weight: 400;
+	width: auto;
+}
+.top-nav ul > li ul.sub-menu li {
+	float: none;
+	background-color: #f7f7f7;
+}
+.top-nav ul > li ul.sub-menu li a {
+	width: 150px;
+	display: block;
+	padding: 5px 12px;
+}
+.top-nav ul > li:hover > ul.sub-menu {
+	display: block;
 }
 
-.top-nav ul li:hover a {
+.top-nav ul > li:hover a {
 	background-color: #f7f7f7;
 }
 
@@ -92,16 +152,20 @@ h1,h2,h3,h4,h5 {
 	padding: 20px 20px 0 0;
 	font-size: 14px;
 }
-.copyright a {
+.copyright a, .bottom-nav a {
 	color: #bbb;
 	text-decoration: none;
+	font-size: 14px;
+}
+.theme-addthis {
+	margin-bottom: 20px;
 }
 .featured-area {
 	height: 250px;
-	overflow-y: hidden;
+	/*overflow-y: hidden;
 	background-color: #323232;
 	background-position: 50% 0;
-	background-size: 100%;
+	background-size: 100%;*/
 }
 .featured-area .featured-image {
 	width: 100%;
@@ -122,19 +186,22 @@ h1,h2,h3,h4,h5 {
 	background: -o-linear-gradient(left, rgba(10,10,10,.7), rgba(10,10,10,.7), rgba(10,10,10,0)); /* For Opera 11.1 to 12.0 */
 	background: -moz-linear-gradient(left, rgba(10,10,10,.7), rgba(10,10,10,.7), rgba(10,10,10,0)); /* For Firefox 3.6 to 15 */
 	background: linear-gradient(left, rgba(10,10,10,.7), rgba(10,10,10,.7), rgba(10,10,10,0)); /* Standard syntax */
+	letter-spacing: 4px;
 }
 .content {
-	margin-bottom: 80px;
+	padding-bottom: 80px;
+	background-color: rgba(255,255,255,0.98);
+	min-height: 100vh;
 }
 .plain-content {
-	max-width: 980px;
-	display: block;
+	width: 1080px;
+	display: table;
 	padding: 20px;
 	font-size: 16px;
 }
 .plain-content a {
 	text-decoration: none;
-	color: #858aae;
+	color: #25b1c6;
 }
 .plain-content.gallery {
 	width: 100%;
@@ -144,6 +211,14 @@ h1,h2,h3,h4,h5 {
 .plain-content h2 {
 	margin: 10px 0;
 	line-height: 1;
+}
+.plain-content .post-item h2 {
+	margin: 10px 0 2px;
+}
+.plain-content .post-item .thedate {
+	letter-spacing: 2px;
+	font-size: 14px;
+	color: #8c8c8c;
 }
 .plain-content p {
 	font-size: 16px;
@@ -155,10 +230,37 @@ h1,h2,h3,h4,h5 {
 .plain-content img.alignright {
 	margin: 0 0 10px 10px;
 }
+.plain-content .plain-left, .plain-content .plain-right {
+	display: table-cell;
+}
+.plain-content .plain-left {
+	width: 66%;
+	padding-right: 20px;
+}
+.plain-content.gallery .plain-left {
+	padding: 0;
+}
+.plain-content .plain-right {
+	width: 33%;	
+}
+.plain-content .plain-right > li {
+	list-style-type: none;
+	padding: 0 20px;
+}
+.plain-content .plain-right > li > h3 {
+	margin: 10px 0;
+	font-weight: 500;
+}
 .fadein {
 	-webkit-transition-property: opacity;
 	-webkit-transition-duration: 2s;
 	-webkit-transition-delay: 1s;
+	-moz-transition-property: opacity;
+	-moz-transition-duration: 2s;
+	-moz-transition-delay: 1s;
+	transition-property: opacity;
+	transition-duration: 2s;
+	transition-delay: 1s;
 }
 .homepage .fadein {
 	opacity: 0;
@@ -175,14 +277,17 @@ h1,h2,h3,h4,h5 {
 .show:hover, .homepage .show:hover {
 	opacity: 1;
 	-webkit-transition-delay: 0s;
+	-moz-transition-delay: 0s;
+	transition-delay: 0s;
 }
 
 .footer {
 	height: 60px;
-	background-color: white;
+	background-color: rgba(255,255,255,0.98);
 	z-index: 20;
 	clear: both;
 }
+div#_atssh { display: none; }
 .homepage .footer {
 	position: fixed;
 	bottom: 0;
@@ -198,6 +303,12 @@ h1,h2,h3,h4,h5 {
 	-webkit-transition-delay: 1s;
 	-webkit-transition-duration: 2s;
 	-webkit-transition-property: opacity;
+	-moz-transition-delay: 1s;
+	-moz-transition-duration: 2s;
+	-moz-transition-property: opacity;
+	transition-delay: 1s;
+	transition-duration: 2s;
+	transition-property: opacity;
 }
 .home-title h1 img {
 	height: 40px;
@@ -278,13 +389,53 @@ a.sell-media-button:link,
 	border-radius: 0;
 	background-color: #858aae;
 }
-
-.galleryViewContainer {
-	height: 100vh;
+#galleryContainer {
+	margin: 10px -10px;
+}
+#galleryContainer .galleryImage {
+	width: 25%;
+	box-sizing: border-box;
+	padding: 10px;
+	cursor: pointer;
+}
+#galleryContainer .galleryImage .imageInner .image {
+}
+#galleryContainer .galleryImage .imageInner img {
+	max-width: 100%;
+	-webkit-transition-property: opacity;
+	-webkit-transition-duration: 0.5s;
+	opacity: 1;
+}
+#galleryContainer .galleryImage .imageInner {
+	background-color: #323232;
+}
+#galleryContainer .galleryImage .imageData {
+	position: absolute;
+	color: white;
+	display: none;
+	vertical-align: middle;
+	-webkit-transition-property: display;
+	-webkit-transition-duration: 0.5s;
 	width: 100%;
+	top: 15px;
+	left: 15px;
+	
+}
+#galleryContainer .galleryImage .imageData p {
+	color: white;
+}
+#galleryContainer .galleryImage:hover .imageInner img {
+	opacity: 0.1;
+}
+#galleryContainer .galleryImage:hover .imageInner .imageData {
+	display: block;
+}
+.galleryViewContainer {
 	position: fixed;
 	top:0;
 	left:0;
+	height: 100vh;
+	right: 0;
 	background-color: white;
 	z-index: 1000;
 	display: none;
@@ -301,10 +452,13 @@ a.sell-media-button:link,
 }
 .galleryViewContainer .image img {
 	display: block;
-	max-height: 80%;
-	max-width: 80%;
+	max-height: 80vh;
+	max-width: 100%;
 	margin: 30px auto;
 	border: 10px solid #323232;
+}
+.galleryViewContainer .image {
+	
 }
 .galleryViewContainer .title {
 	position: fixed;
@@ -328,30 +482,115 @@ a.sell-media-button:link,
 	color: #505050;
 	cursor: pointer;
 }
+.galleryViewContainer .buy a {
+	color: #323232;
+	text-decoration: none;
+}
+.galleryViewContainer .buy {
+	position: fixed;
+	bottom: 20px;
+	right: 30px;
+}
+.widget_calendar #wp-calendar {
+	width: 100%;
+	border-collapse: collapse;
+}
+.widget_calendar #wp-calendar thead {
+	background-color: #f7f7f7;
+}
+.widget_calendar #wp-calendar caption {
+	margin-bottom: 5px;
+	font-size: 18px;
+}
+.widget_calendar #wp-calendar #today {
+	color: #bd5927;
+}
+.widget_calendar #wp-calendar a {
+	text-decoration: none;
+}
+.widget_calendar #wp-calendar td, .widget_calendar #wp-calendar th {
+	text-align: center;
+	padding: 5px 0;
+}
+.bottombar {
+	padding: 0 20px;
+	
+}
+.bottombar > li {
+	list-style-type: none;
+}
+blockquote {
+	font-style: italic;
+	font-size: 18px;
+	border-left: 5px solid #ddd;
+	margin-left: 0;
+	padding: 10px;
+}
+blockquote p {
+	margin: 0 !important;
+}
+.post-item {
+	border-bottom: 1px dashed #ddd;
+	padding-bottom: 20px;
+	margin-bottom: 30px;
+}
+.dashicons {
+	margin-right: 5px;
+}
+.format-quote:before {
+	content: "\f122";
+}
+.format-image:before {
+	content: "\f128";
+}
+.format-video:before {
+	content: "\f236";
+}
+@media screen and (max-width: 1079px) {
+	.plain-content {
+		width: 100%;
+		box-sizing: border-box;
+	}
+}
 @media screen and (max-width: 825px) {
 	.tag-line-box p {
 		display: none;
 	}
 }
 @media screen and (max-width: 767px) {
+	.plain-content .plain-right > li {
+		padding: 0;
+	}
+	.plain-content, .plain-content .plain-left, .plain-content .plain-right {
+		display: block;
+	}
+	.plain-content .plain-right, .plain-content .plain-left { width: auto; padding: 0; }
 	.featured-area h1 {
-		width: 100%;
-		margin-top: 90%;
-		background: -webkit-linear-gradient(left, rgba(10,10,10,0), rgba(10,10,10,.7), rgba(10,10,10,0)); /* For Safari 5.1 to 6.0 */
-		background: -o-linear-gradient(left, rgba(10,10,10,0), rgba(10,10,10,.7), rgba(10,10,10,0)); /* For Opera 11.1 to 12.0 */
-		background: -moz-linear-gradient(left, rgba(10,10,10,0), rgba(10,10,10,.7), rgba(10,10,10,0)); /* For Firefox 3.6 to 15 */
-		background: linear-gradient(left, rgba(10,10,10,0), rgba(10,10,10,.7), rgba(10,10,10,0)); /* Standard syntax */
-		text-align: center;
-		line-height: 1;
+		display: none;
 	}
 	.featured-area {
-		height: 90vh;
-		background-size: cover;
+		height: 75vh;
+		/*background-size: cover;*/
+	}
+	.content > h1 {
+		display: block;
+		padding: 10px 20px;
+		margin: 0;
+	}
+	body {
+		background-attachment: scroll;
+		background-size: 120vh auto;
+		background-position: center top;
+	}
+	.top-nav > h1 {
+		display: inherit;
 	}
 	.plain-content img {
 		width: 100%;
 		height: auto;
 		margin: 10px 0;
+		display: inline-block;
+		float: none;
 	}
 	.tag-line-box .site-logo {
 		float: none;
@@ -367,10 +606,47 @@ a.sell-media-button:link,
 	}
 	.galleryViewContainer .title {
 		background-color: rgba(10,10,10,.7);
-		font-size: 22px;
+		font-size: 14px;
 		width: 100%;
 	}
 	.sell-media .page-header, .sell-media #content {
 		margin-top: 130px;
+	}
+	.footer {
+		padding: 0;
+		height: auto;
+		background-color: white;
+	}
+	.copyright, .bottom-nav {
+		float: none;
+		margin: 0;
+		padding: 20px 10px;
+	}
+	.bottom-nav ul.menu {
+		padding: 0;
+	}
+	#galleryContainer .galleryImage {
+		width: 50%;
+		
+	}
+	.galleryViewContainer .image img {
+		border: none;
+		margin-top: 80px;
+		
+	}
+	.galleryViewContainer .buy {
+		top: 0;
+		left: 30px;
+		right: auto;
+		bottom: auto;
+	}
+	#galleryContainer .galleryImage .imageInner img {
+		margin: 0;
+	}
+	.homepage .bottom-nav {
+		display: none;
+	}
+	.content {
+		background-color: white;
 	}
 }
